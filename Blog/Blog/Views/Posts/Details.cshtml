@@ -1,0 +1,90 @@
+﻿@model Blog.Models.Post
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Post</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.PostCreationDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PostCreationDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PostTitle)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PostTitle)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PostContent)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PostContent)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PostMedia)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PostMedia)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Published)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Published)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AuthorId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AuthorId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PostUpdateDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PostUpdateDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PostUpdateReason)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PostUpdateReason)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EditorId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EditorId)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

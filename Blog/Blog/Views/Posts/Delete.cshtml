@@ -1,0 +1,96 @@
+﻿@model Blog.Models.Post
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Post</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.PostCreationDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PostCreationDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PostTitle)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PostTitle)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PostContent)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PostContent)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PostMedia)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PostMedia)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Published)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Published)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AuthorId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AuthorId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PostUpdateDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PostUpdateDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PostUpdateReason)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PostUpdateReason)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EditorId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EditorId)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

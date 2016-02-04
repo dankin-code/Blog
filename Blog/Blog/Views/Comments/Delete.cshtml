@@ -1,0 +1,88 @@
+﻿@model Blog.Models.Comment
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Comment</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.CommentContent)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CommentContent)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CommentCreationDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CommentCreationDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AuthorId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AuthorId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PostId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PostId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CommentUpdateDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CommentUpdateDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MarkForDeletion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MarkForDeletion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CommentUpdateReason)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CommentUpdateReason)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EditorId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EditorId)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

@@ -1,0 +1,18 @@
+﻿@model IEnumerable<Blog.Models.Post>
+
+@{
+    ViewBag.Title = "Home Page";
+}
+
+<h2>@ViewBag.Title</h2>
+
+@foreach (var item in Model)
+{
+    
+    @Html.DisplayFor(modelItem => item.MediaUrl)
+    @Html.DisplayFor(modelItem => item.PostTitle)
+    <hr />
+    @Html.DisplayFor(modelItem => item.PostContent)
+    <br />
+    <br />
+}
