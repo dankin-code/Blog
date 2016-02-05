@@ -51,8 +51,25 @@
         <br />
         <br />
 
+        <div class="row">
+            @*Search box*@
+            <p align="right">
+                @Html.BeginForm("Index", "Posts", new { }, FormMethod.Get)
+                {
+                <input name="searchStr" id="searchStr" type="text" />
+                <input type="submit" value="Search" class="btn btn-default" />
+                }
+            </p>
+        </div>
 
         @RenderBody()
+
+
+
+
+
+
+
 
 
 
@@ -77,7 +94,7 @@
 
     <!-- Contact Form JavaScript -->
     @*<script src="~/Content/js/jqBootstrapValidation.js"></script>
-    <script src="js/contact_me.js"></script>*@
+        <script src="js/contact_me.js"></script>*@
 
     <!-- Custom Theme JavaScript -->
     <script src="~/Content/js/agency.js"></script>
