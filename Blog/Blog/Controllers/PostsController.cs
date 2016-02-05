@@ -20,7 +20,16 @@ namespace Blog.Controllers
         {
             return View(db.Posts.ToList());
         }
-
+        
+        //Get with search string
+        public ActionResult Index(string searchStr, int? page, int? size, int?count)
+        {
+            //Query finds all posts where the search string "searchStr"
+            var result = db.Posts.Where(p => p.PostTitle.Contains(searchStr) || p.PostContent.Contains(searchStr));
+            //return RedirectToAction("Index", new { posts = result, page, size, count }); this line can be used after addding paging
+            return View(result);
+        }
+  
         // GET: Posts/Details/5
         [Authorize]
         public ActionResult Details(int? id)
