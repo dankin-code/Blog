@@ -12,7 +12,6 @@ namespace Blog.Models
     [Table("Post")]
     public partial class Post
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Post()
         {
             Comments = new HashSet<Comment>();
@@ -32,11 +31,7 @@ namespace Blog.Models
         public string PostContent { get; set; }
 
         [Required]
-        [DataType(DataType.ImageUrl)]
         public string MediaUrl { get; set; }
-
-        [DataType(DataType.Upload)]
-        HttpPostedFileBase ImageUpload { get; set; }
 
         public bool Published { get; set; }
 
@@ -44,13 +39,11 @@ namespace Blog.Models
 
         public DateTime PostUpdateDate { get; set; }
 
-        [Required]
         [StringLength(500)]
         public string PostUpdateReason { get; set; }
 
         public int EditorId { get; set; }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Comment> Comments { get; set; }
     }
 }

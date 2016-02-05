@@ -7,7 +7,6 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Blog.Models;
-using System.IO;
 
 namespace Blog.Controllers
 {
@@ -50,23 +49,10 @@ namespace Blog.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize]
-        public ActionResult Create([Bind(Include = "Id,PostCreationDate,PostTitle,PostContent,PostMedia,Published")] Post post)
+        public ActionResult Create([Bind(Include = "Id,PostCreationDate,PostTitle,PostContent,MediaUrl,Published,AuthorId,PostUpdateDate,PostUpdateReason,EditorId")] Post post)
         {
             if (ModelState.IsValid)
             {
-                ////restrict the valid file formats to images only
-                //if (ImageUploadValidator.IsWebFriendlyImage(fileUpload))
-                //{
-                //    var fileName = Path.GetFileName(fileUpload.FileName);
-                //    fileUpload.SaveAs(Path.Combine(Server.MapPath("~/img/blog"), fileName));
-                //    post.PostMedia = "~img/blog/" + fileName;
-                //}
-
-                //byte[] uploadedFile = new byte[post.PostMedia.InputStream.Length];
-                //post.PostMedia.InputStream.Read(uploadedFile, 0, uploadedFile.Length);
-
-                //post.PostCreationDate = new DateTimeOffset(DateTime.Now);
-               
                 db.Posts.Add(post);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -95,9 +81,9 @@ namespace Blog.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [Authorize]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,PostCreationDate,PostTitle,PostContent,PostMedia,Published,AuthorId,PostUpdateDate,PostUpdateReason,EditorId")] Post post)
+        [Authorize]
+        public ActionResult Edit([Bind(Include = "Id,PostCreationDate,PostTitle,PostContent,MediaUrl,Published,AuthorId,PostUpdateDate,PostUpdateReason,EditorId")] Post post)
         {
             if (ModelState.IsValid)
             {
@@ -127,6 +113,7 @@ namespace Blog.Controllers
         // POST: Posts/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public ActionResult DeleteConfirmed(int id)
         {
             Post post = db.Posts.Find(id);

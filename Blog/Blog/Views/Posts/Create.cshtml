@@ -1,21 +1,20 @@
 ﻿@model Blog.Models.Post
 
 @{
-    ViewBag.Title = "Create a Post";
+    ViewBag.Title = "Create";
 }
 
-<h2>Create a Post</h2>
+<h2>Create</h2>
 
 
-@using (Html.BeginForm("Create", "Posts" , FormMethod.Post, new { enctype = "Multipart/form-data" }))
+@using (Html.BeginForm()) 
 {
     @Html.AntiForgeryToken()
-
+    
     <div class="form-horizontal">
         <h4>Post</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-
 
         <div class="form-group">
             @Html.LabelFor(model => model.PostTitle, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -36,7 +35,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.MediaUrl, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.TextBoxFor(model => model.MediaUrl)
+                @Html.EditorFor(model => model.MediaUrl, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.MediaUrl, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -58,7 +57,6 @@
         </div>
     </div>
 }
-
 
 <div>
     @Html.ActionLink("Back to List", "Index")

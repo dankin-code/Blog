@@ -9,17 +9,73 @@
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.PostCreationDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PostTitle)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PostContent)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MediaUrl)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Published)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AuthorId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PostUpdateDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PostUpdateReason)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EditorId)
+        </th>
+        <th></th>
+    </tr>
 
-@foreach (var item in Model)
-{
-    @Html.DisplayFor(modelItem => item.MediaUrl)
-    @Html.DisplayFor(modelItem => item.PostTitle)
-    <hr />
-    @Html.DisplayFor(modelItem => item.PostContent)
-    <br />
-    @Html.DisplayFor(modelItem => item.PostCreationDate)
-    @Html.ActionLink("Edit", "Edit", new { id=item.Id })
-    @Html.ActionLink("Details", "Details", new { id=item.Id })
-    @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-    <hr />
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.PostCreationDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PostTitle)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PostContent)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MediaUrl)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Published)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AuthorId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PostUpdateDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PostUpdateReason)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EditorId)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+        </td>
+    </tr>
 }
+
+</table>

@@ -36,6 +36,7 @@ namespace Blog.Controllers
         }
 
         // GET: Comments/Create
+        [Authorize]
         public ActionResult Create()
         {
             return View();
@@ -45,8 +46,8 @@ namespace Blog.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [Authorize]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public ActionResult Create([Bind(Include = "Id,CommentContent,CommentCreationDate,AuthorId,PostId,CommentUpdateDate,MarkForDeletion,CommentUpdateReason,EditorId")] Comment comment)
         {
             if (ModelState.IsValid)
@@ -79,8 +80,8 @@ namespace Blog.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [Authorize]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public ActionResult Edit([Bind(Include = "Id,CommentContent,CommentCreationDate,AuthorId,PostId,CommentUpdateDate,MarkForDeletion,CommentUpdateReason,EditorId")] Comment comment)
         {
             if (ModelState.IsValid)
