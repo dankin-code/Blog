@@ -23,13 +23,13 @@ namespace Blog.Models
         [AllowHtml]
         public string CommentContent { get; set; }
 
-        public DateTime CommentCreationDate { get; set; }
+        public DateTimeOffset CommentCreationDate { get; set; }
 
         public int AuthorId { get; set; }
 
         public int PostId { get; set; }
 
-        public DateTime CommentUpdateDate { get; set; }
+        public DateTimeOffset CommentUpdateDate { get; set; }
 
         public bool MarkForDeletion { get; set; }
 

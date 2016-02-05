@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Blog.Models;
+using System.IO;
 
 namespace Blog.Controllers
 {
@@ -49,14 +50,18 @@ namespace Blog.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize]
-        public ActionResult Create([Bind(Include = "Id,PostCreationDate,PostTitle,PostContent,MediaUrl,Published,AuthorId,PostUpdateDate,PostUpdateReason,EditorId")] Post post)
+        public ActionResult Create([Bind(Include = "Id,PostCreationDate,PostTitle,PostContent,MediaUrl,Published")] Post post)
         {
             if (ModelState.IsValid)
             {
+
+
+                post.PostCreationDate = new DateTimeOffset(DateTime.Now);
                 db.Posts.Add(post);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+
 
             return View(post);
         }
@@ -87,6 +92,7 @@ namespace Blog.Controllers
         {
             if (ModelState.IsValid)
             {
+                post.PostUpdateDate = new DateTimeOffset(DateTime.Now);
                 db.Entry(post).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");

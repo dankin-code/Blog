@@ -19,7 +19,7 @@ namespace Blog.Models
 
         public int Id { get; set; }
 
-        public DateTime PostCreationDate { get; set; }
+        public DateTimeOffset PostCreationDate { get; set; }
 
         [Required]
         [StringLength(500)]
@@ -37,7 +37,7 @@ namespace Blog.Models
 
         public int AuthorId { get; set; }
 
-        public DateTime PostUpdateDate { get; set; }
+        public DateTimeOffset PostUpdateDate { get; set; }
 
         [StringLength(500)]
         public string PostUpdateReason { get; set; }

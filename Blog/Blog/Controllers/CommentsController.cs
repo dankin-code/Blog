@@ -52,6 +52,7 @@ namespace Blog.Controllers
         {
             if (ModelState.IsValid)
             {
+                comment.CommentCreationDate = new DateTimeOffset(DateTime.Now);
                 db.Comments.Add(comment);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -86,6 +87,7 @@ namespace Blog.Controllers
         {
             if (ModelState.IsValid)
             {
+                comment.CommentUpdateDate = new DateTimeOffset(DateTime.Now);
                 db.Entry(comment).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
