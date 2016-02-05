@@ -54,8 +54,6 @@ namespace Blog.Controllers
         {
             if (ModelState.IsValid)
             {
-
-
                 post.PostCreationDate = new DateTimeOffset(DateTime.Now);
                 db.Posts.Add(post);
                 db.SaveChanges();

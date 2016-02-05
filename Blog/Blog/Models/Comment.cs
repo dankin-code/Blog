@@ -11,7 +11,6 @@ namespace Blog.Models
     [Table("Comment")]
     public partial class Comment
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Comment()
         {
             Posts = new HashSet<Post>();
@@ -39,7 +38,6 @@ namespace Blog.Models
 
         public int EditorId { get; set; }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Post> Posts { get; set; }
     }
 }
