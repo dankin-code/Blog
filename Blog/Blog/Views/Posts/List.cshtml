@@ -13,6 +13,7 @@
 @foreach (var item in Model)
 {
     <p align="center">
+        @*<img src="~/images/@Model.FilePaths.First(f => f.FileType == FileType.Photo)).FileName" alt="" />*@
         @Html.DisplayFor(modelItem => item.MediaUrl)
         @*<img src="@Url.Content(@Model.MediaUrl)" />*@
     </p>
@@ -24,13 +25,10 @@
     <br />
     <pre>Published: @Html.DisplayFor(modelItem => item.PostCreationDate)</pre>
     <br />
-    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-    @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-    <br />
-    <br />
-    <hr />
+    @Html.ActionLink("Edit", "Edit", new { id = item.Id })
+    @Html.ActionLink("Details", "Details", new { id = item.Id })
+@Html.ActionLink("Delete", "Delete", new { id = item.Id })
+<br />
+<br />
+<hr />
 }
-
-
-</table>

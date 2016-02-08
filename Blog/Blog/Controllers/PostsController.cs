@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using Blog.Models;
 using System.IO;
+using PagedList;
 
 namespace Blog.Controllers
 {
@@ -59,11 +60,20 @@ namespace Blog.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize]
-        public ActionResult Create([Bind(Include = "Id,PostCreationDate,PostTitle,PostContent,MediaUrl,Published")] Post post)
+        public ActionResult Create([Bind(Include = "Id,PostCreationDate,PostTitle,PostContent,HttpPostedFileBase MediaUrl,Published")] Post post)
         {
             if (ModelState.IsValid)
             {
-                post.PostCreationDate = new DateTimeOffset(DateTime.Now);
+                HttpPostedFileBase MediaUrl = Request.Files["MediaUrl"];
+                if (MediaUrl != null && MediaUrl.ContentLength > 0)
+                {
+                    var fileName = Path.GetFileName(MediaUrl.FileName);
+                    post.MediaUrl = (Path.Combine(Server.MapPath("~/Images"), fileName));
+                    MediaUrl.SaveAs(post.MediaUrl);
+                    post.MediaUrl = "~/images/" + fileName;
+
+                }
+
                 db.Posts.Add(post);
                 db.SaveChanges();
                 return RedirectToAction("Index");

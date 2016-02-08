@@ -33,6 +33,8 @@ namespace Blog.Models
         [Required]
         public string MediaUrl { get; set; }
 
+        public byte[] Photo { get; set; }
+
         public bool Published { get; set; }
 
         public int AuthorId { get; set; }
@@ -45,5 +47,6 @@ namespace Blog.Models
         public int EditorId { get; set; }
 
         public virtual ICollection<Comment> Comments { get; set; }
+
     }
 }
