@@ -1,10 +1,10 @@
 ﻿@model IEnumerable<Blog.Models.Post>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "List";
 }
 
-<h2>Index</h2>
+<h2>List</h2>
 
 <p>
     @Html.ActionLink("Create New", "Create")
@@ -24,10 +24,13 @@
     <br />
     <pre>Published: @Html.DisplayFor(modelItem => item.PostCreationDate)</pre>
     <br />
-    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) 
-    @Html.ActionLink("Details", "Details", new { id = item.Id })
+    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+    @Html.ActionLink("Details", "Details", new { id = item.Id }) |
     @Html.ActionLink("Delete", "Delete", new { id = item.Id })
     <br />
     <br />
     <hr />
 }
+
+
+</table>

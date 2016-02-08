@@ -53,16 +53,16 @@
 
         <div class="row">
             @*Search box*@
+            @using (Html.BeginForm("Index", "Posts", new { }, FormMethod.Get))
+            {
             <p align="right">
-                @Html.BeginForm("Index", "Posts", new { }, FormMethod.Get)
-                {
                 <input name="searchStr" id="searchStr" type="text" />
-                <input type="submit" value="Search" class="btn btn-default" />
-                }
+                <input type = "submit" value = "Search" class="btn btn-default" />
             </p>
+             }
         </div>
 
-        @RenderBody()
+            @RenderBody()
 
 
 
@@ -75,33 +75,36 @@
 
 
 
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - Daniel's Blog</p>
-        </footer>
-    </div>
+                <hr />
+                <footer>
+                    <p>&copy; @DateTime.Now.Year - Daniel's Blog</p>
+                </footer>
+            </div>
 
     <!-- jQuery -->
-    <script src="~/Content/js/jquery.js"></script>
+                <script src="~/Content/js/jquery.js"></script>
 
     <!-- Bootstrap Core JavaScript -->
-    <script src="~/Content/js/bootstrap.min.js"></script>
+                <script src="~/Content/js/bootstrap.min.js"></script>
 
     <!-- Plugin JavaScript -->
-    <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
-    <script src="~/Content/js/classie.js"></script>
-    <script src="~/Content/js/cbpAnimatedHeader.js"></script>
+                <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
+                <script src="~/Content/js/classie.js"></script>
+                <script src="~/Content/js/cbpAnimatedHeader.js"></script>
 
     <!-- Contact Form JavaScript -->
-    @*<script src="~/Content/js/jqBootstrapValidation.js"></script>
-        <script src="js/contact_me.js"></script>*@
+                @*<script src="~/Content/js/jqBootstrapValidation.js"></script>
+                    <script src="js/contact_me.js"></script>*@
 
     <!-- Custom Theme JavaScript -->
-    <script src="~/Content/js/agency.js"></script>
+                <script src="~/Content/js/agency.js"></script>
 
     <!--Tiny MCE Widget-->
-    <script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
-    <script>tinymce.init({ selector: 'textarea' });</script>
-    @RenderSection("scripts", required: false)
-</body>
+                <script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
+                <script>tinymce.init({ selector: 'textarea' });</script>
+                @RenderSection("scripts", required: false)
+            </body>
+
+
+
 </html>

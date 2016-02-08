@@ -9,6 +9,8 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Blog.Models;
+using Microsoft.AspNet.Identity.EntityFramework;
+using System.Data.Entity;
 
 namespace Blog.Controllers
 {
@@ -153,6 +155,13 @@ namespace Blog.Controllers
             {
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
                 var result = await UserManager.CreateAsync(user, model.Password);
+                //var roleStore = new RoleStore<IdentityRole>(context);
+                //var roleManage = new RoleManager<IdentityRole>(roleStore);
+
+                //var userStore = new UserStore<ApplicationUser>(context);
+                //var userManager = new UserManager<ApplicationUser>(userStore);
+                //userManager.AddToRole(user.Id, "User");
+
                 if (result.Succeeded)
                 {
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);

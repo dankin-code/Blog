@@ -1,0 +1,25 @@
+﻿@model IEnumerable<Blog.Models.Post>
+
+@{
+    ViewBag.Title = "Search";
+}
+
+<h2>Search Results</h2>
+
+<table class="table table-condensed table-striped">
+    <tr>
+        <th>Post Title</th>
+        <th>Post Content</th>
+        <th>Comment</th>
+    </tr>
+
+@foreach (var item in Model)
+{
+    <tr>
+    <td>@item.PostTitle</td>
+    <td>@item.PostContent</td>
+    <td>@item.Comments</td>
+    </tr>
+}
+</table>
+
