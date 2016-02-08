@@ -4,6 +4,9 @@ namespace Blog.Migrations
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
     using System.Linq;
+    using Microsoft.AspNet.Identity;
+    using Microsoft.AspNet.Identity.EntityFramework;
+    using Models;
 
     internal sealed class Configuration : DbMigrationsConfiguration<Blog.Models.ApplicationDbContext>
     {
@@ -12,6 +15,25 @@ namespace Blog.Migrations
             AutomaticMigrationsEnabled = true;
             AutomaticMigrationDataLossAllowed = true;
         }
+
+        //bool AddUserAndRole(Blog.Models.ApplicationDbContext context)
+        //{
+        //    IdentityResult ir;
+        //    var rm = new RoleManager<IdentityRole>
+        //        (new RoleStore<IdentityRole>(context));
+        //    ir = rm.Create(new IdentityRole("canEdit"));
+        //    var um = new UserManager<ApplicationUser>(
+        //        new UserStore<ApplicationUser>(context));
+        //    var user = new ApplicationUser()
+        //    {
+        //        UserName = "dkinai@hotmail.com",
+        //    };
+        //    ir = um.Create(user, "Password1$");
+        //    if (ir.Succeeded == false)
+        //        return ir.Succeeded;
+        //    ir = um.AddToRole(user.Id, "canEdit");
+        //    return ir.Succeeded;
+        //}
 
         protected override void Seed(Blog.Models.ApplicationDbContext context)
         {
