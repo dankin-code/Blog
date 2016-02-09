@@ -7,7 +7,9 @@ using System.Threading.Tasks;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using PagedList;
 using Blog.Models;
+using Blog.Utils;
 
 namespace Blog.Controllers
 {
@@ -60,19 +62,26 @@ namespace Blog.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize]
-        public async Task<ActionResult> Create([Bind(Include = "Id,PostCreationDate,PostTitle,PostContent,MediaUrl,Published,AuthorId")] Post post)
+        //public async Task<ActionResult> Create([Bind(Include = "Id,PostCreationDate,PostTitle,PostContent,Published,AuthorId")] Post post)
+                public async Task<ActionResult> Create([Bind(Include = "Id,PostCreationDate,PostTitle,PostContent,MediaUrl,Published,AuthorId")] Post post, HttpPostedFileBase MediaUrl)
+
         {
             if (ModelState.IsValid)
             {
                 post.PostCreationDate = new DateTimeOffset(DateTime.Now);
                 post.AuthorId = db.Users.FirstOrDefault(u => u.UserName == User.Identity.Name).Id;
-                HttpPostedFileBase MediaUrl = Request.Files["MediaUrl"];
-                if (MediaUrl != null && MediaUrl.ContentLength > 0)
-                {
-                    string MediaName = System.IO.Path.GetFileName(MediaUrl.FileName);
-                    string physicalPath = Server.MapPath("~/images/" + MediaName);
-                    MediaUrl.SaveAs(physicalPath);
-                }
+
+                //upload image file
+                post.MediaUrl = FileUpload.UploadFile(MediaUrl);
+
+
+                //HttpPostedFileBase MediaUrl = Request.Files["MediaUrl"];
+                //if (MediaUrl != null && MediaUrl.ContentLength > 0)
+                //{
+                //    string MediaName = System.IO.Path.GetFileName(MediaUrl.FileName);
+                //    string physicalPath = Server.MapPath("~/images/" + MediaName);
+                //    MediaUrl.SaveAs(physicalPath);
+                //}
 
                 db.Posts.Add(post);
                 await db.SaveChangesAsync();
@@ -104,10 +113,17 @@ namespace Blog.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize]
-        public async Task<ActionResult> Edit([Bind(Include = "Id,PostCreationDate,PostTitle,PostContent,MediaUrl,Published,AuthorId,PostUpdateDate,PostUpdateReason,EditorId")] Post post)
+        public async Task<ActionResult> Edit([Bind(Include = "Id,PostCreationDate,PostTitle,PostContent,MediaUrl,Published,AuthorId,PostUpdateDate,PostUpdateReason,EditorId")] Post post, HttpPostedFileBase MediaUrl)
         {
             if (ModelState.IsValid)
             {
+                // Delete old file
+
+                FileUpload.DeleteFile(post.MediaUrl);
+                // Upload our file
+
+                post.MediaUrl = FileUpload.UploadFile(MediaUrl);
+
                 post.PostUpdateDate = new DateTimeOffset(DateTime.Now);
                 post.EditorId = db.Users.FirstOrDefault(u => u.UserName == User.Identity.Name).Id;
                 db.Entry(post).State = EntityState.Modified;
@@ -138,6 +154,10 @@ namespace Blog.Controllers
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
             Post post = await db.Posts.FindAsync(id);
+            
+            // Delete old image file
+            FileUpload.DeleteFile(post.MediaUrl);
+
             db.Posts.Remove(post);
             await db.SaveChangesAsync();
             return RedirectToAction("Index");

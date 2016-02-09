@@ -1,4 +1,5 @@
-﻿@model Blog.Models.Post
+﻿@*@model Blog.Models.Post*@
+@model IEnumerable<Blog.Models.Post>
 
 @{
     ViewBag.Title = "Blog";
@@ -9,6 +10,15 @@
 <div>
     <h4>Post</h4>
     <hr />
+    @*@foreach (var item in Model)
+    {
+        @Html.DisplayFor(modelItem => item.PostTitle)
+        @Html.DisplayFor(modelItem => item.PostContent)
+        @Html.DisplayFor(modelItem => item.MediaUrl)
+        <br />
+        <pre>@Html.DisplayFor(modelItem => item.PostCreationDate)</pre>
+
+    }*@
 
 
 </div>
