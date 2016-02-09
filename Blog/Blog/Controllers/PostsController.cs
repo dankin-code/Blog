@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
-using PagedList;
 using Blog.Models;
 using Blog.Utils;
+using PagedList;
 
 namespace Blog.Controllers
 {
@@ -23,7 +23,6 @@ namespace Blog.Controllers
             return View(await db.Posts.ToListAsync());
         }
 
-        //Get with search string
         public ActionResult Index(string searchStr, int? page, int? size, int? count)
         {
             //Query finds all posts where the search string "searchStr"
@@ -32,9 +31,7 @@ namespace Blog.Controllers
             return View(result);
         }
 
-
         // GET: Posts/Details/5
-        [Authorize]
         public async Task<ActionResult> Details(int? id)
         {
             if (id == null)
@@ -50,7 +47,6 @@ namespace Blog.Controllers
         }
 
         // GET: Posts/Create
-        [Authorize]
         public ActionResult Create()
         {
             return View();
@@ -62,26 +58,18 @@ namespace Blog.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize]
+        //public async Task<ActionResult> Create([Bind(Include = "Id,PostCreationDate,PostTitle,PostContent,MediaUrl,Published,AuthorId,PostUpdateDate,PostUpdateReason,EditorId")] Post post)
         //public async Task<ActionResult> Create([Bind(Include = "Id,PostCreationDate,PostTitle,PostContent,Published,AuthorId")] Post post)
-                public async Task<ActionResult> Create([Bind(Include = "Id,PostCreationDate,PostTitle,PostContent,MediaUrl,Published,AuthorId")] Post post, HttpPostedFileBase MediaUrl)
-
+        //public async Task<ActionResult> Create([Bind(Include = "Id,PostCreationDate,PostTitle,PostContent,MediaUrl,Published,AuthorId")] Post post, HttpPostedFileBase MediaUrl)
+        public async Task<ActionResult> Create (Post post, HttpPostedFileBase MediaUrl)
         {
             if (ModelState.IsValid)
             {
                 post.PostCreationDate = new DateTimeOffset(DateTime.Now);
                 post.AuthorId = db.Users.FirstOrDefault(u => u.UserName == User.Identity.Name).Id;
 
-                //upload image file
-                post.MediaUrl = FileUpload.UploadFile(MediaUrl);
-
-
-                //HttpPostedFileBase MediaUrl = Request.Files["MediaUrl"];
-                //if (MediaUrl != null && MediaUrl.ContentLength > 0)
-                //{
-                //    string MediaName = System.IO.Path.GetFileName(MediaUrl.FileName);
-                //    string physicalPath = Server.MapPath("~/images/" + MediaName);
-                //    MediaUrl.SaveAs(physicalPath);
-                //}
+               //upload image file
+               post.MediaUrl = FileUpload.UploadFile(MediaUrl);
 
                 db.Posts.Add(post);
                 await db.SaveChangesAsync();
@@ -92,7 +80,6 @@ namespace Blog.Controllers
         }
 
         // GET: Posts/Edit/5
-        [Authorize]
         public async Task<ActionResult> Edit(int? id)
         {
             if (id == null)
@@ -113,19 +100,32 @@ namespace Blog.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize]
-        public async Task<ActionResult> Edit([Bind(Include = "Id,PostCreationDate,PostTitle,PostContent,MediaUrl,Published,AuthorId,PostUpdateDate,PostUpdateReason,EditorId")] Post post, HttpPostedFileBase MediaUrl)
+        public async Task<ActionResult> Edit([Bind(Include = "Id,PostCreationDate,PostTitle,PostContent,MediaUrl,Published,AuthorId,PostUpdateDate,PostUpdateReason,EditorId")] Post post)
+        //public async Task<ActionResult> Edit([Bind(Include = "Id,PostCreationDate,PostTitle,PostContent,MediaUrl,Published,AuthorId,PostUpdateDate,PostUpdateReason,EditorId")] Post post, HttpPostedFileBase MediaUrl)
         {
             if (ModelState.IsValid)
             {
-                // Delete old file
 
-                FileUpload.DeleteFile(post.MediaUrl);
-                // Upload our file
 
-                post.MediaUrl = FileUpload.UploadFile(MediaUrl);
+                //HttpPostedFileBase MediaUrl = Request.Files["MediaUrl"];
+                //if (MediaUrl != null && MediaUrl.ContentLength > 0)
+                //{
+                //    string MediaName = System.IO.Path.GetFileName(MediaUrl.FileName);
+                //    string physicalPath = Server.MapPath("~/images/" + MediaName);
+                //    MediaUrl.SaveAs(physicalPath);
+                //}
+
+
+                //// Delete old file
+
+                //FileUpload.DeleteFile(post.MediaUrl);
+                //// Upload our file
+
+                //post.MediaUrl = FileUpload.UploadFile(MediaUrl);
 
                 post.PostUpdateDate = new DateTimeOffset(DateTime.Now);
                 post.EditorId = db.Users.FirstOrDefault(u => u.UserName == User.Identity.Name).Id;
+
                 db.Entry(post).State = EntityState.Modified;
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
@@ -151,10 +151,11 @@ namespace Blog.Controllers
         // POST: Posts/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
             Post post = await db.Posts.FindAsync(id);
-            
+
             // Delete old image file
             FileUpload.DeleteFile(post.MediaUrl);
 

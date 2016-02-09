@@ -22,7 +22,6 @@ namespace Blog.Controllers
         }
 
         // GET: Comments/Details/5
-        [Authorize]
         public async Task<ActionResult> Details(int? id)
         {
             if (id == null)
@@ -38,7 +37,6 @@ namespace Blog.Controllers
         }
 
         // GET: Comments/Create
-        [Authorize]
         public ActionResult Create()
         {
             return View();
@@ -56,7 +54,7 @@ namespace Blog.Controllers
             {
                 comment.CommentCreationDate = new DateTimeOffset(DateTime.Now);
                 comment.AuthorId = db.Users.FirstOrDefault(u => u.UserName == User.Identity.Name).Id;
-
+                
                 db.Comments.Add(comment);
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
@@ -66,7 +64,6 @@ namespace Blog.Controllers
         }
 
         // GET: Comments/Edit/5
-        [Authorize]
         public async Task<ActionResult> Edit(int? id)
         {
             if (id == null)
@@ -87,13 +84,13 @@ namespace Blog.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize]
-        public async Task<ActionResult> Edit([Bind(Include = "Id,CommentContent,CommentCreationDate,AuthorId,PostId,CommentUpdateDate,MarkForDeletion,CommentUpdateReason,EditorId")] Comment comment)
+        public async Task<ActionResult> Edit([Bind(Include = "Id,CommentContent,MarkForDeletion,CommentUpdateReason")] Comment comment)
         {
             if (ModelState.IsValid)
             {
                 comment.CommentUpdateDate = new DateTimeOffset(DateTime.Now);
                 comment.EditorId = db.Users.FirstOrDefault(u => u.UserName == User.Identity.Name).Id;
-
+                
                 db.Entry(comment).State = EntityState.Modified;
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
@@ -102,7 +99,6 @@ namespace Blog.Controllers
         }
 
         // GET: Comments/Delete/5
-        [Authorize]
         public async Task<ActionResult> Delete(int? id)
         {
             if (id == null)

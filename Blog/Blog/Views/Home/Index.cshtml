@@ -1,5 +1,4 @@
-﻿@*@model Blog.Models.Post*@
-@model IEnumerable<Blog.Models.Post>
+﻿@model IEnumerable<Blog.Models.Post>
 
 
 @{
@@ -10,16 +9,5 @@
 <p>
     @Html.ActionLink("Create New Post", "Create", "Posts")
 </p>
-
-
-@*@foreach (var item in Model)
-{
-    @Html.DisplayFor(modelItem => item.PostTitle)
-    @Html.DisplayFor(modelItem => item.PostContent)
-    @Html.DisplayFor(modelItem => item.MediaUrl)
-    <br />
-    <pre>@Html.DisplayFor(modelItem => item.PostCreationDate)</pre>
-
-}*@
 
 
