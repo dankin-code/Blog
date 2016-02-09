@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
@@ -15,19 +16,20 @@ namespace Blog.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Comments
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
-            return View(db.Comments.ToList());
+            return View(await db.Comments.ToListAsync());
         }
 
         // GET: Comments/Details/5
-        public ActionResult Details(int? id)
+        [Authorize]
+        public async Task<ActionResult> Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Comment comment = db.Comments.Find(id);
+            Comment comment = await db.Comments.FindAsync(id);
             if (comment == null)
             {
                 return HttpNotFound();
@@ -48,13 +50,15 @@ namespace Blog.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize]
-        public ActionResult Create([Bind(Include = "Id,CommentContent,CommentCreationDate,AuthorId,PostId,CommentUpdateDate,MarkForDeletion,CommentUpdateReason,EditorId")] Comment comment)
+        public async Task<ActionResult> Create([Bind(Include = "Id,CommentContent,CommentCreationDate,AuthorId,PostId,CommentUpdateDate,MarkForDeletion,CommentUpdateReason,EditorId")] Comment comment)
         {
             if (ModelState.IsValid)
             {
                 comment.CommentCreationDate = new DateTimeOffset(DateTime.Now);
+                comment.AuthorId = db.Users.FirstOrDefault(u => u.UserName == User.Identity.Name).Id;
+
                 db.Comments.Add(comment);
-                db.SaveChanges();
+                await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
 
@@ -63,13 +67,13 @@ namespace Blog.Controllers
 
         // GET: Comments/Edit/5
         [Authorize]
-        public ActionResult Edit(int? id)
+        public async Task<ActionResult> Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Comment comment = db.Comments.Find(id);
+            Comment comment = await db.Comments.FindAsync(id);
             if (comment == null)
             {
                 return HttpNotFound();
@@ -83,13 +87,15 @@ namespace Blog.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize]
-        public ActionResult Edit([Bind(Include = "Id,CommentContent,CommentCreationDate,AuthorId,PostId,CommentUpdateDate,MarkForDeletion,CommentUpdateReason,EditorId")] Comment comment)
+        public async Task<ActionResult> Edit([Bind(Include = "Id,CommentContent,CommentCreationDate,AuthorId,PostId,CommentUpdateDate,MarkForDeletion,CommentUpdateReason,EditorId")] Comment comment)
         {
             if (ModelState.IsValid)
             {
                 comment.CommentUpdateDate = new DateTimeOffset(DateTime.Now);
+                comment.EditorId = db.Users.FirstOrDefault(u => u.UserName == User.Identity.Name).Id;
+
                 db.Entry(comment).State = EntityState.Modified;
-                db.SaveChanges();
+                await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
             return View(comment);
@@ -97,13 +103,13 @@ namespace Blog.Controllers
 
         // GET: Comments/Delete/5
         [Authorize]
-        public ActionResult Delete(int? id)
+        public async Task<ActionResult> Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Comment comment = db.Comments.Find(id);
+            Comment comment = await db.Comments.FindAsync(id);
             if (comment == null)
             {
                 return HttpNotFound();
@@ -113,13 +119,13 @@ namespace Blog.Controllers
 
         // POST: Comments/Delete/5
         [HttpPost, ActionName("Delete")]
-        [Authorize]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        [Authorize]
+        public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            Comment comment = db.Comments.Find(id);
+            Comment comment = await db.Comments.FindAsync(id);
             db.Comments.Remove(comment);
-            db.SaveChanges();
+            await db.SaveChangesAsync();
             return RedirectToAction("Index");
         }
 

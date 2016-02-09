@@ -30,21 +30,18 @@ namespace Blog.Models
         [StringLength(5000)]
         public string PostContent { get; set; }
 
-        [Required]
         public string MediaUrl { get; set; }
-
-        public byte[] Photo { get; set; }
 
         public bool Published { get; set; }
 
-        public int AuthorId { get; set; }
+        public string AuthorId { get; set; }
 
         public DateTimeOffset PostUpdateDate { get; set; }
 
         [StringLength(500)]
         public string PostUpdateReason { get; set; }
 
-        public int EditorId { get; set; }
+        public string EditorId { get; set; }
 
         public virtual ICollection<Comment> Comments { get; set; }
 

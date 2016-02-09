@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Blog.Models;
-using System.IO;
-using PagedList;
 
 namespace Blog.Controllers
 {
@@ -17,29 +16,30 @@ namespace Blog.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Posts
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
-            return View(db.Posts.ToList());
+            return View(await db.Posts.ToListAsync());
         }
-        
+
         //Get with search string
-        public ActionResult Index(string searchStr, int? page, int? size, int?count)
+        public ActionResult Index(string searchStr, int? page, int? size, int? count)
         {
             //Query finds all posts where the search string "searchStr"
             var result = db.Posts.Where(p => p.PostTitle.Contains(searchStr) || p.PostContent.Contains(searchStr));
             //return RedirectToAction("Index", new { posts = result, page, size, count }); this line can be used after addding paging
             return View(result);
         }
-  
+
+
         // GET: Posts/Details/5
         [Authorize]
-        public ActionResult Details(int? id)
+        public async Task<ActionResult> Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Post post = db.Posts.Find(id);
+            Post post = await db.Posts.FindAsync(id);
             if (post == null)
             {
                 return HttpNotFound();
@@ -60,38 +60,37 @@ namespace Blog.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize]
-        public ActionResult Create([Bind(Include = "Id,PostCreationDate,PostTitle,PostContent,HttpPostedFileBase MediaUrl,Published")] Post post)
+        public async Task<ActionResult> Create([Bind(Include = "Id,PostCreationDate,PostTitle,PostContent,MediaUrl,Published,AuthorId")] Post post)
         {
             if (ModelState.IsValid)
             {
+                post.PostCreationDate = new DateTimeOffset(DateTime.Now);
+                post.AuthorId = db.Users.FirstOrDefault(u => u.UserName == User.Identity.Name).Id;
                 HttpPostedFileBase MediaUrl = Request.Files["MediaUrl"];
                 if (MediaUrl != null && MediaUrl.ContentLength > 0)
                 {
-                    var fileName = Path.GetFileName(MediaUrl.FileName);
-                    post.MediaUrl = (Path.Combine(Server.MapPath("~/Images"), fileName));
-                    MediaUrl.SaveAs(post.MediaUrl);
-                    post.MediaUrl = "~/images/" + fileName;
-
+                    string MediaName = System.IO.Path.GetFileName(MediaUrl.FileName);
+                    string physicalPath = Server.MapPath("~/images/" + MediaName);
+                    MediaUrl.SaveAs(physicalPath);
                 }
 
                 db.Posts.Add(post);
-                db.SaveChanges();
+                await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-
 
             return View(post);
         }
 
         // GET: Posts/Edit/5
         [Authorize]
-        public ActionResult Edit(int? id)
+        public async Task<ActionResult> Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Post post = db.Posts.Find(id);
+            Post post = await db.Posts.FindAsync(id);
             if (post == null)
             {
                 return HttpNotFound();
@@ -105,27 +104,27 @@ namespace Blog.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize]
-        public ActionResult Edit([Bind(Include = "Id,PostCreationDate,PostTitle,PostContent,MediaUrl,Published,AuthorId,PostUpdateDate,PostUpdateReason,EditorId")] Post post)
+        public async Task<ActionResult> Edit([Bind(Include = "Id,PostCreationDate,PostTitle,PostContent,MediaUrl,Published,AuthorId,PostUpdateDate,PostUpdateReason,EditorId")] Post post)
         {
             if (ModelState.IsValid)
             {
                 post.PostUpdateDate = new DateTimeOffset(DateTime.Now);
+                post.EditorId = db.Users.FirstOrDefault(u => u.UserName == User.Identity.Name).Id;
                 db.Entry(post).State = EntityState.Modified;
-                db.SaveChanges();
+                await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
             return View(post);
         }
 
         // GET: Posts/Delete/5
-        [Authorize]
-        public ActionResult Delete(int? id)
+        public async Task<ActionResult> Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Post post = db.Posts.Find(id);
+            Post post = await db.Posts.FindAsync(id);
             if (post == null)
             {
                 return HttpNotFound();
@@ -136,12 +135,11 @@ namespace Blog.Controllers
         // POST: Posts/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        [Authorize]
-        public ActionResult DeleteConfirmed(int id)
+        public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            Post post = db.Posts.Find(id);
+            Post post = await db.Posts.FindAsync(id);
             db.Posts.Remove(post);
-            db.SaveChanges();
+            await db.SaveChangesAsync();
             return RedirectToAction("Index");
         }
 

@@ -17,7 +17,7 @@ namespace Blog.Controllers
         [RequireHttps]
         public ActionResult About()
         {
-            ViewBag.Message = "About Me";
+            ViewBag.Message = "About Me.";
 
             return View();
         }
