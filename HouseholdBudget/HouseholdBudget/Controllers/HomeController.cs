@@ -4,28 +4,25 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace Blog.Controllers
+namespace HouseholdBudget.Controllers
 {
     public class HomeController : Controller
     {
-        [RequireHttps]
         public ActionResult Index()
         {
             return View();
         }
 
-        [RequireHttps]
         public ActionResult About()
         {
-            ViewBag.Message = "About Me.";
+            ViewBag.Message = "Your application description page.";
 
             return View();
         }
 
-        [RequireHttps]
-        public ActionResult Blog()
+        public ActionResult Contact()
         {
-            ViewBag.Message = "My Blog.";
+            ViewBag.Message = "Your contact page.";
 
             return View();
         }

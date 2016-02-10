@@ -1,81 +1,31 @@
-﻿@model IEnumerable<Blog.Models.Post>
+﻿@using Blog.Models
+@model IEnumerable<Blog.Models.Post>
 
-@{
-    ViewBag.Title = "Index";
-}
+@{ViewBag.Title = "Blog";}
 
-<h2>Index</h2>
+<h2>@ViewBag.Title.</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.PostCreationDate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.PostTitle)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.PostContent)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.MediaUrl)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Published)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.AuthorId)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.PostUpdateDate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.PostUpdateReason)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.EditorId)
-        </th>
-        <th></th>
-    </tr>
+<div class="container-fluid">
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.PostCreationDate)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.PostTitle)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.PostContent)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.MediaUrl)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Published)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.AuthorId)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.PostUpdateDate)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.PostUpdateReason)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.EditorId)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
 
-</table>
+        <p align="center"><img class="img-responsive" src="@Url.Content(item.MediaUrl)" /></p>
+        <h3>@Html.DisplayFor(model => item.PostTitle)</h3>
+        <hr />
+        @Html.DisplayFor(model => item.PostContent)
+        <br />
+        <br />
+        <pre>Date Posted: @Html.DisplayFor(model => item.PostCreationDate)</pre>
+        <br />
+        <br />
+
+        <h4>Comments</h4>
+        <br />
+
+        foreach (var c in item.Comments)
+        {
+            @Html.DisplayFor(modelItem => c.CommentContent)
+        }
+    }
+</div>
